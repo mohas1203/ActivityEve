@@ -13,9 +13,15 @@ interface Props {
   activity: Activity | undefined;
   closeForm: () => void;
   createOrEdit: (activity: Activity) => void;
+  submitting: boolean;
 }
 
-export default function ActivityForm({activity: selectedActivity, closeForm, createOrEdit}: Props) {
+export default function ActivityForm({
+  activity: selectedActivity,
+  closeForm,
+  createOrEdit,
+  submitting,
+}: Props) {
   const initialState = selectedActivity ?? {
     id: "",
     title: "",
@@ -23,20 +29,22 @@ export default function ActivityForm({activity: selectedActivity, closeForm, cre
     description: "",
     date: "",
     city: "",
-    venue: ""
-  }
+    venue: "",
+  };
 
-  const [activity, setActivity] = useState(initialState)
+  const [activity, setActivity] = useState(initialState);
 
-  const handleSubmit = (e: { preventDefault: () => void; }) => {
-    e.preventDefault()
-    createOrEdit(activity)
-  }
+  const handleSubmit = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    createOrEdit(activity);
+  };
 
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const {name, value} = event.target;
-    setActivity({...activity, [name]: value})
-  }
+  const handleInputChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = event.target;
+    setActivity({ ...activity, [name]: value });
+  };
 
   return (
     <Box
@@ -50,27 +58,57 @@ export default function ActivityForm({activity: selectedActivity, closeForm, cre
       <form onSubmit={handleSubmit} autoComplete="off">
         <FormControl>
           <FormLabel>Title</FormLabel>
-          <Input name="title" type="text" value={activity.title} onChange={handleInputChange}/>
+          <Input
+            name="title"
+            type="text"
+            value={activity.title}
+            onChange={handleInputChange}
+          />
         </FormControl>
         <FormControl>
           <FormLabel>Description</FormLabel>
-          <Textarea type="text" name="description" value={activity.description} onChange={handleInputChange}/>
+          <Textarea
+            type="text"
+            name="description"
+            value={activity.description}
+            onChange={handleInputChange}
+          />
         </FormControl>
         <FormControl>
           <FormLabel>Category</FormLabel>
-          <Input type="text" name="category" value={activity.category} onChange={handleInputChange}/>
+          <Input
+            type="text"
+            name="category"
+            value={activity.category}
+            onChange={handleInputChange}
+          />
         </FormControl>
         <FormControl>
           <FormLabel>Date</FormLabel>
-          <Input type="text" name="date" value={activity.date} onChange={handleInputChange}/>
+          <Input
+            type="date"
+            name="date"
+            value={activity.date}
+            onChange={handleInputChange}
+          />
         </FormControl>
         <FormControl>
           <FormLabel>City</FormLabel>
-          <Input type="text" name="city" value={activity.city} onChange={handleInputChange}/>
+          <Input
+            type="text"
+            name="city"
+            value={activity.city}
+            onChange={handleInputChange}
+          />
         </FormControl>
         <FormControl>
           <FormLabel>Venue</FormLabel>
-          <Input type="text" name="venue" value={activity.venue} onChange={handleInputChange}/>
+          <Input
+            type="text"
+            name="venue"
+            value={activity.venue}
+            onChange={handleInputChange}
+          />
         </FormControl>
         <Button
           type="submit"
@@ -78,6 +116,7 @@ export default function ActivityForm({activity: selectedActivity, closeForm, cre
           colorScheme={"green"}
           maxWidth={"100px"}
           m={2}
+          isLoading={submitting}
         >
           Create
         </Button>

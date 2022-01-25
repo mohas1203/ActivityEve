@@ -1,13 +1,26 @@
 import { Box, Stack, Text, Heading, Avatar, Button } from "@chakra-ui/react";
-import React from "react";
+import React, { SyntheticEvent, useState } from "react";
 import { Activity } from "../../../app/models/Activity";
 
 interface Props {
   activities: Activity[];
   selectActivity: (id: string) => void;
   deleteActivity: (id: string) => void;
+  submitting: boolean;
 }
-export default function ActivityList({ activities, selectActivity, deleteActivity }: Props) {
+export default function ActivityList({
+  activities,
+  selectActivity,
+  deleteActivity,
+  submitting,
+}: Props) {
+  const [target, setTarget] = useState('');
+
+  const handleActivityDelete = (event: SyntheticEvent<HTMLButtonElement>, id: string) => {
+   setTarget(event.currentTarget.name) 
+   deleteActivity(id)
+  }
+
   return (
     <>
       {activities.map((activity) => (
@@ -58,10 +71,12 @@ export default function ActivityList({ activities, selectActivity, deleteActivit
             View
           </Button>
           <Button
-            onClick={() => deleteActivity(activity.id)}
+            onClick={(e) => handleActivityDelete(e, activity.id)}
             colorScheme={"red"}
             width={"100px"}
             float="right"
+            name={activity.id}
+            isLoading={submitting && target === activity.id}
             mr={2}
           >
             Delete
