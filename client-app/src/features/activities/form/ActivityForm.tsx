@@ -6,22 +6,18 @@ import {
   Input,
   Textarea,
 } from "@chakra-ui/react";
+import { observer } from "mobx-react-lite";
 import React, { ChangeEvent, useState } from "react";
 import { Activity } from "../../../app/models/Activity";
+import { useStore } from "../../../app/stores/store";
 
-interface Props {
-  activity: Activity | undefined;
-  closeForm: () => void;
-  createOrEdit: (activity: Activity) => void;
-  submitting: boolean;
-}
 
-export default function ActivityForm({
-  activity: selectedActivity,
-  closeForm,
-  createOrEdit,
-  submitting,
-}: Props) {
+
+export default observer(function ActivityForm() {
+  
+  const {activityStore} = useStore()
+  const { selectedActivity, closeForm, createActivity, updateActivity, loading } = activityStore
+  
   const initialState = selectedActivity ?? {
     id: "",
     title: "",
@@ -36,7 +32,7 @@ export default function ActivityForm({
 
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    createOrEdit(activity);
+    activity.id ? updateActivity(activity) : createActivity(activity)
   };
 
   const handleInputChange = (
@@ -116,7 +112,7 @@ export default function ActivityForm({
           colorScheme={"green"}
           maxWidth={"100px"}
           m={2}
-          isLoading={submitting}
+          isLoading={loading}
         >
           Create
         </Button>
@@ -133,4 +129,4 @@ export default function ActivityForm({
       </form>
     </Box>
   );
-}
+})
