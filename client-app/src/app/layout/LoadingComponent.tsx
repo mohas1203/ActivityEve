@@ -7,13 +7,12 @@ interface Props {
 }
 
 export default function LoadingComponent({
-  inverted = true,
   content = "loading...",
 }: Props) {
   return (
-      <Stack>
-        <Spinner size={"lg"} color={"teal"}/>
-        <Text fontSize={"md"} >{content}</Text>
-      </Stack>
+    <Stack>
+      <Spinner size={"lg"} color={"teal"} />
+      <Text fontSize={"md"}>{content}</Text>
+    </Stack>
   );
 }
