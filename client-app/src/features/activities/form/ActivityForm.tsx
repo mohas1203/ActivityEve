@@ -108,7 +108,7 @@ export default observer(function ActivityForm() {
           onChange={handleInputChange}
         />
         <Button
-          content="Create"
+          content="Submit"
           type="submit"
           floated="right"
           color="blue"
@@ -119,7 +119,6 @@ export default observer(function ActivityForm() {
           as={Link}
           to={"/activities"}
           content="Cancel"
-          type="submit"
           floated="right"
           color={"red"}
           m={2}
