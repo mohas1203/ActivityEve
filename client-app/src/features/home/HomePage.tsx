@@ -1,12 +1,12 @@
-import { Container, Heading, Link, Text } from "@chakra-ui/react";
 import React from "react";
-import { Link as RouteLink } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { Container } from "semantic-ui-react";
 
 export default function HomePage() {
   return (
-    <Container mt={"3em"}>
-      <Heading>Home page</Heading>
-      <Text fontSize={"2xl"}>Go to <Link as={RouteLink} to="/activities">Activities</Link></Text>
+    <Container style={{marginTop: "7em"}}>
+      <h1>Home page</h1>
+      <h3>Go to <Link to="/activities">Activities</Link></h3>
     </Container>
   );
 }

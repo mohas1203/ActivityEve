@@ -1,17 +1,10 @@
 import React, { useEffect } from "react";
-import {
-  Box,
-  Stack,
-  Text,
-  Heading,
-  Avatar,
-  Image,
-  Button,
-} from "@chakra-ui/react";
+
 import { useStore } from "../../../app/stores/store";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { Link, useParams } from "react-router-dom";
 import { observer } from "mobx-react-lite";
+import { Card, Image, Button} from "semantic-ui-react";
 
 export default observer(function ActivityDetails() {
   const { activityStore } = useStore();
@@ -29,69 +22,42 @@ export default observer(function ActivityDetails() {
   }, [id, loadActivity]);
 
   if (loadingInitial || !activity)
-    return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "90vh",
-        }}
-      >
-        <LoadingComponent content="Loading..." />
-      </div>
-    );
+    return <LoadingComponent content="Loading..." />;
 
   return (
-    <Box mt={3} w={"full"} boxShadow={"base"} p={6} overflow={"hidden"}>
-      <Box minHeight={"210px"} bg={"gray.100"} mt={-6} mx={-6} mb={6}>
-        <Image
-          minHeight={"210px"}
-          src={`/assets/categoryImages/${activity.category}.jpg`}
-          layout={"fill"}
-          width={"full"}
-        />
-      </Box>
-      <Stack>
-        <Text
-          color={"teal.500"}
-          textTransform={"uppercase"}
-          fontWeight={800}
-          fontSize={"sm"}
-          letterSpacing={1.1}
-        >
-          {activity.category}
-        </Text>
-        <Heading fontSize={"2xl"} fontFamily={"body"}>
-          {activity.title}
-        </Heading>
-        <Text color={"gray.500"}>{activity.description}</Text>
-
-        <Button
-          as={Link}
-          to={`/manage/${activity.id}`}
-          colorScheme={"teal"}
-          maxWidth={"100px"}
-        >
-          Edit
-        </Button>
-
-        <Button as={Link} to="/activities" maxWidth={"100px"}>
-          Cancel
-        </Button>
-      </Stack>
-      <Stack mt={6} direction={"row"} spacing={4} align={"center"}>
-        <Avatar
-          src={"https://avatars0.githubusercontent.com/u/1164541?v=4"}
-          alt={"Author"}
-        />
-        <Stack direction={"column"} spacing={0} fontSize={"sm"}>
-          <Text fontWeight={600}>
-            {activity.city}, {activity.venue}
-          </Text>
-          <Text color={"gray.500"}>{activity.date}</Text>
-        </Stack>
-      </Stack>
-    </Box>
+    <Card fluid>
+      <Image
+        src={`/assets/categoryImages/${activity.category}.jpg`}
+        wrapped
+        ui={false}
+      />
+      <Card.Content>
+        <Card.Header>{activity.title}</Card.Header>
+        <Card.Meta>
+          <span className="date">{activity.date}</span>
+        </Card.Meta>
+        <Card.Description>{activity.description}</Card.Description>
+      </Card.Content>
+      <Card.Content extra>
+        <Button.Group widths="2">
+          <Button
+            basic
+            color="blue"
+            content="Edit"
+            as={Link}
+            to={`/manage/${activity.id}`}
+          />
+          <Button
+            basic
+            color="red"
+            content="Cancel"
+            as={Link}
+            to="/activities"
+          />
+        </Button.Group>
+      </Card.Content>
+    </Card>
   );
 });
+
+

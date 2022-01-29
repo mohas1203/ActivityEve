@@ -1,11 +1,4 @@
-import {
-  Box,
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  Textarea,
-} from "@chakra-ui/react";
+import { Button, Form, Segment } from "semantic-ui-react";
 import { observer } from "mobx-react-lite";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
@@ -66,105 +59,72 @@ export default observer(function ActivityForm() {
   };
 
   if (loadingInitial || !activity)
-    return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "90vh",
-        }}
-      >
-        <LoadingComponent content="Loading Activity..." />
-      </div>
-    );
+    return <LoadingComponent content="Loading Activity..." />;
 
   return (
-    <Box
-      p={5}
-      pb={10}
-      backgroundColor="white"
-      mt={4}
-      boxShadow={"base"}
-      overflowY="auto"
-    >
-      <form onSubmit={handleSubmit} autoComplete="off">
-        <FormControl>
-          <FormLabel>Title</FormLabel>
-          <Input
-            name="title"
-            type="text"
-            value={activity.title}
-            onChange={handleInputChange}
-          />
-        </FormControl>
-        <FormControl>
-          <FormLabel>Description</FormLabel>
-          <Textarea
-            type="text"
-            name="description"
-            value={activity.description}
-            onChange={handleInputChange}
-          />
-        </FormControl>
-        <FormControl>
-          <FormLabel>Category</FormLabel>
-          <Input
-            type="text"
-            name="category"
-            value={activity.category}
-            onChange={handleInputChange}
-          />
-        </FormControl>
-        <FormControl>
-          <FormLabel>Date</FormLabel>
-          <Input
-            type="date"
-            name="date"
-            value={activity.date}
-            onChange={handleInputChange}
-          />
-        </FormControl>
-        <FormControl>
-          <FormLabel>City</FormLabel>
-          <Input
-            type="text"
-            name="city"
-            value={activity.city}
-            onChange={handleInputChange}
-          />
-        </FormControl>
-        <FormControl>
-          <FormLabel>Venue</FormLabel>
-          <Input
-            type="text"
-            name="venue"
-            value={activity.venue}
-            onChange={handleInputChange}
-          />
-        </FormControl>
+    <Segment clearing>
+      <Form onSubmit={handleSubmit} autoComplete="off">
+        <Form.Input
+          name="title"
+          type="text"
+          value={activity.title}
+          onChange={handleInputChange}
+          placeholder="title"
+        />
+
+        <Form.TextArea
+          type="text"
+          name="description"
+          placeholder="description"
+          value={activity.description}
+          onChange={handleInputChange}
+        />
+        <Form.Input
+          type="text"
+          name="category"
+          placeholder="category"
+          value={activity.category}
+          onChange={handleInputChange}
+        />
+        <Form.Input
+          type="date"
+          name="date"
+          placeholder="date"
+          value={activity.date}
+          onChange={handleInputChange}
+        />
+        <Form.Input
+          type="text"
+          name="city"
+          placeholder="city"
+          value={activity.city}
+          onChange={handleInputChange}
+        />
+        <Form.Input
+          type="text"
+          name="venue"
+          placeholder="venue"
+          value={activity.venue}
+          onChange={handleInputChange}
+        />
         <Button
+          content="Create"
           type="submit"
-          float="right"
-          colorScheme={"green"}
-          maxWidth={"100px"}
+          floated="right"
+          color="blue"
           m={2}
-          isLoading={loading}
-        >
-          Create
-        </Button>
+          loading={loading}
+        />
         <Button
           as={Link}
           to={"/activities"}
+          content="Cancel"
           type="submit"
-          float="right"
-          colorScheme={"red"}
-          maxWidth={"100px"}
+          floated="right"
+          color={"red"}
           m={2}
-        >
-          Cancel
-        </Button>
-      </form>
-    </Box>
+        />
+      </Form>
+    </Segment>
   );
 });
