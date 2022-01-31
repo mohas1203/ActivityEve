@@ -10,6 +10,7 @@ export default function Navbar() {
           ActivityEve.
         </Menu.Item>
         <Menu.Item as={Link} to="/activities" name="Activities"/>
+        <Menu.Item as={Link} to="/errors" name="Errors"/>
         <Menu.Item>
           <Button as={NavLink} to="/createActivity" color="orange" content="Create Activity" />
         </Menu.Item>
