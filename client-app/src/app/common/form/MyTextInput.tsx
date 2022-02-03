@@ -7,6 +7,8 @@ interface Props {
   name: string;
   label?: string;
   type?: string;
+  icon?: string;
+  iconPosition?: string;
 }
 
 export default function MyTextInput(props: Props) {
