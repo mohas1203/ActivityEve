@@ -12,7 +12,7 @@ import MyTextArea from "../../../app/common/form/MyTextArea";
 import MySelectInput from "../../../app/common/form/MySelectInput";
 import { categoryOptions } from "../../../app/common/options/categoryOptions";
 import MyDateInput from "../../../app/common/form/MyDateInput";
-import { Activity } from "../../../app/models/Activity";
+import { ActivityFormValues } from "../../../app/models/Activity";
 
 export default observer(function ActivityForm() {
   const { activityStore } = useStore();
@@ -20,21 +20,14 @@ export default observer(function ActivityForm() {
   const {
     createActivity,
     updateActivity,
-    loading,
     loadActivity,
     loadingInitial,
   } = activityStore;
 
   const { id } = useParams<{ id: string }>();
-  const [activity, setActivity] = useState<Activity>({
-    id: "",
-    title: "",
-    category: "",
-    description: "",
-    date: null,
-    city: "",
-    venue: "",
-  });
+  const [activity, setActivity] = useState<ActivityFormValues>(
+    new ActivityFormValues()
+  );
 
   const validationSchema = Yup.object({
     title: Yup.string().required("The title for the activity is required!"),
@@ -49,12 +42,14 @@ export default observer(function ActivityForm() {
 
   useEffect(() => {
     if (id) {
-      loadActivity(id).then((activity) => setActivity(activity!));
+      loadActivity(id).then((activity) =>
+        setActivity(new ActivityFormValues(activity))
+      );
     }
   }, [id, loadActivity]);
 
-  const handleFormSubmit = (activity: Activity) => {
-    if (activity.id.length === 0) {
+  const handleFormSubmit = (activity: ActivityFormValues) => {
+    if (!activity.id) {
       let newActivity = {
         ...activity,
         id: uuid(),
@@ -68,7 +63,6 @@ export default observer(function ActivityForm() {
       });
     }
   };
- 
 
   if (loadingInitial || !activity)
     return <LoadingComponent content="Loading Activity..." />;
@@ -98,7 +92,7 @@ export default observer(function ActivityForm() {
               timeCaption="time"
               dateFormat="MMMM d, yyyy h:mm aa"
             />
-            <Header content="Location Details" sub color='blue' />
+            <Header content="Location Details" sub color="blue" />
             <MyTextInput name="city" placeholder="city" />
             <MyTextInput name="venue" placeholder="venue" />
             <Button
@@ -108,7 +102,7 @@ export default observer(function ActivityForm() {
               color="blue"
               m={2}
               disabled={isSubmitting || !dirty || !isValid}
-              loading={loading}
+              loading={isSubmitting}
             />
             <Button
               as={Link}
